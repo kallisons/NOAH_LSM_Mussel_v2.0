@@ -1,0 +1,24 @@
+ -------------------------------------------------------------
+Integer indexes designating soil type, veg type and slope type:
+ -------------------------------------------------------------
+    10          SOILTYP...Soil type index 1-9
+    14         VEGTYP....Vegetation type index 1-13
+    1          SLOPETYP..Slope type index 1-9
+ ____
+  Monthly ALBEDO (snow free albedo):
+   J*   F    M    A*   M    J    J*   A    S    O*   N    D   
+  0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10
+ ____
+  Monthly SHDFAC (green vegetation fraction):
+   J    F    M    A    M    J    J    A    S    O    N    D   
+  0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+ --
+    0.7500     SNOALB....Max albedo over very deep snow
+    0          SEA ICE...Sea ice flag (keep as integer 0 to designate non-sea)
+ ------------------ 
+Physical parameters:
+ ------------------ 
+  285.         TBOT......Annual constant bottom boundary soil temperature (K)
+ ---------------------- 
+Initial state variables:
+ ---------------------- 

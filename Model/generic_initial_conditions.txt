@@ -1,0 +1,8 @@
+    285       T1........Initial skin temperature (K)
+    285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   STC
+   0.181   0.181   0.181   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   SMC
+   0.181   0.181   0.0304   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   SH2O
+   0.0000000      CMC.......Initial canopy water content (m)
+   0       SNOWH.....Initial actual snow depth (m)
+   0       SNEQV.....Initial water equiv snow depth (m)
+ -------------------------------------- 
