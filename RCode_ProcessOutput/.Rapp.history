@@ -1,0 +1,518 @@
+require(chron)#
+#
+AssemblyInfo<-read.table("../RCode_ProcessOutput/AssemblyInfo_BedStructure2.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
+AssemblyInfo
+require(chron)#
+#
+AssemblyInfo<-read.table("../RCode_ProcessOutput/AssemblyInfo_BedStructure2.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)
+AssemblyInfo
+AssemblyInfo<-subset(AssemblyInfo, AssemblyInfo$Site=="USCATP" & AssemblyInfo$Point=="1.00")
+AssemblyInfo
+Files_ModelOutput<-list.files("../ExampleModelOutput/")
+Files_ModelOutput
+z
+z<-1
+site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA #
+print(site)#
+print(z)
+longitude<--122.065 #Longitude of Santa Cruz, CA, USA
+longitude
+point<-sprintf("%1.2f", substr(Files_ModelOutput[z], 9, 12))
+point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))
+point
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 29, 22)))#
+print(cntct)
+substr(Files_ModelOutput[z], 29, 22)
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))#
+print(cntct)
+year<-as.numeric(substr(Files_ModelOutput[z], 24,27))#
+print(year)
+widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,#
+CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,#
+X1=0,X2=0,X3=0,X4=0,X5=0,#
+X6=0,X7=0,X8=0,X9=0,X10=0,#
+X11=0,X12=0,X13=0,X14=0,X15=0,#
+X16=0,X17=0,X18=0,X19=0,X20=0)#
+#
+data<-data.frame(scan(Files_ModelOutput[z],widths,multi.line=TRUE))
+data<-data.frame(scan(paste("../ExampleModelOutput/", Files_ModelOutput[z], sep=""), widths, multi.line=TRUE))
+data[1:10,]
+data$nchar<-nchar(data$hhmm)#
+data$hhmm<-ifelse(data$nchar==1, paste("000", data$hhmm, sep=""), ifelse(data$nchar==2, paste("00", data$hhmm, sep=""), ifelse(data$nchar==3, paste(0, data$hhmm, sep=""), data$hhmm)))#
+data$Date<-paste(year, data$jday, data$hhmm)#
+store<-strptime(data$Date, "%Y %j %H%M")#
+store2<-as.POSIXct(store)#
+class(store2)<-("numeric")#
+data$Unix<-store2#
+data$Unix<-data$Unix+longitude*240#
+data$Unix<-round(data$Unix, digits=0)#
+DateConvert<-data$Unix#
+class(DateConvert)<-"POSIXct"#
+DateExtract<-as.POSIXlt(DateConvert)#
+data$Date<-as.character(DateExtract, format="%Y-%m-%d")#
+data$Time<-as.character(DateExtract, format="%H:%M")
+data[1:10,]
+data<-data[,c("Unix","Date","Time", paste("X", beddepth, sep=""))]#
+colnames(data)[4]<-"Temp"#
+data$Temp<-data$Temp-273.15#
+data$Temp<-round(data$Temp, digits=1)
+beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contact is varied at 4 cm
+data<-data[,c("Unix","Date","Time", paste("X", beddepth, sep=""))]#
+colnames(data)[4]<-"Temp"#
+data$Temp<-data$Temp-273.15#
+data$Temp<-round(data$Temp, digits=1)
+data[1:10,]
+out<-paste("../ExampleProcessedOutput/", site, "_", point, "_cntct", cntct, "_beddepth", beddepth, "_MusselTemps.txt", sep="")#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+out<-paste("../ExampleProcessedOutput/MusselTemperatures", site, "_p", point, "_cntct", cntct, "_beddepth", beddepth, "_MusselTemps.txt", sep="")#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+out<-paste("../ExampleProcessedOutput/MusselTemperatures/", site, "_p", point, "_cntct", cntct, "_beddepth", beddepth, "_MusselTemps.txt", sep="")#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+out<-paste("../ExampleProcessedOutput/MusselTemperatures/MusselTemps_", site, "_p", point, "_cntct", cntct, "_beddepth", beddepth, ".txt", sep="")#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")
+require(chron)#
+#
+Files_ModelOutput<-list.files("../ExampleModelOutput/")#
+#
+beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contact is varied at 4 cm#
+for(z in 1:length(Files_ModelOutput)){#
+site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA #
+print(site)#
+longitude<--122.065 #Longitude of Santa Cruz, CA, USA#
+print(longitude)#
+point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))#
+print(point)	#
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))#
+print(cntct)#
+year<-as.numeric(substr(Files_ModelOutput[z], 24,27))#
+print(year)#
+#
+widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,#
+CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,#
+X1=0,X2=0,X3=0,X4=0,X5=0,#
+X6=0,X7=0,X8=0,X9=0,X10=0,#
+X11=0,X12=0,X13=0,X14=0,X15=0,#
+X16=0,X17=0,X18=0,X19=0,X20=0)#
+#
+data<-data.frame(scan(paste("../ExampleModelOutput/", Files_ModelOutput[z], sep=""), widths, multi.line=TRUE))#
+#
+data$nchar<-nchar(data$hhmm)#
+data$hhmm<-ifelse(data$nchar==1, paste("000", data$hhmm, sep=""), ifelse(data$nchar==2, paste("00", data$hhmm, sep=""), ifelse(data$nchar==3, paste(0, data$hhmm, sep=""), data$hhmm)))#
+data$Date<-paste(year, data$jday, data$hhmm)#
+store<-strptime(data$Date, "%Y %j %H%M")#
+store2<-as.POSIXct(store)#
+class(store2)<-("numeric")#
+data$Unix<-store2#
+data$Unix<-data$Unix+longitude*240  #Convert from UTC to local time based on solar noon.  #
+data$Unix<-round(data$Unix, digits=0)#
+DateConvert<-data$Unix#
+class(DateConvert)<-"POSIXct"#
+DateExtract<-as.POSIXlt(DateConvert)#
+data$Date<-as.character(DateExtract, format="%Y-%m-%d")#
+data$Time<-as.character(DateExtract, format="%H:%M")#
+#
+data<-data[,c("Unix","Date","Time", paste("X", beddepth, sep=""))]#
+colnames(data)[4]<-"Temp"#
+data$Temp<-data$Temp-273.15#
+data$Temp<-round(data$Temp, digits=1)#
+#
+out<-paste("../ExampleProcessedOutput/MusselTemperatures/MusselTemps_", site, "_p", point, "_cntct", cntct, "_beddepth", beddepth, ".txt", sep="")#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")#
+#
+}
+require(caTools)#
+require(fields)#
+require(RNetCDF)#
+Files_MusselTemps<-list.files("../ExampleProcessedOutput/MusselTemperatures")
+require(chron)#
+#
+Files_ModelOutput<-list.files("../ExampleModelOutput/")
+Files_ModelOutput
+require(caTools)#
+require(fields)#
+require(RNetCDF)#
+Files_MusselTemps<-list.files("../ExampleProcessedOutput/MusselTemperatures/")
+Files_MusselTemps
+Files_MusselTemps<-list.files("../ExampleProcessedOutput/MusselTemperatures/")
+Files_MusselTemps
+require(caTools)#
+require(fields)#
+require(RNetCDF)#
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command to change the working directory to the RCode_ProcessOutput folder.#
+getwd() #shows the current working directory for the R gui. #
+#
+Files_MusselTemps<-list.files("../ExampleProcessedOutput/MusselTemperatures/")
+z<-1
+site<-substr(Files_MusselTemps[z], 13, 18)#
+cat("site:", site)#
+point<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 21, 24)))#
+cat("shore level: ", as.numeric(point)*100, "%", sep="")#
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 31, 34)))#
+cat("contact: ", as.numeric(cntct)*100, "%", sep="")#
+beddepth<-as.numeric(substr(Files_MusselTemps[z], 44, 44))#
+cat("beddepth =", beddepth, "cm")#
+#Coefficients of the relationship among temperature, exposure time and survival from laboratory studies of the intertidal mussel, Mytilus californianus. Data published in:  Mislan, K.A.S., B. Helmuth, and D.S. Wethey. 2014. Geographical variation in climatic sensitivity of intertidal mussel zonation.  Global Ecology and Biogeography. 23:744-756. #
+coefs<-matrix(nrow=3,ncol=3)#
+coefs[,1]<-c(42.16,43.02,43.64) # Coefficient D (1 Day, 2 Days, 3 Days)#
+coefs[,2]<-c(-0.93,-0.97,-1.00) # # Coefficient C (1 Day, 2 Days, 3 Days)#
+coefs[,3]<-c(3.14,3.01,4.09) # Coefficient A (1 Day, 2 Days, 3 Days)#
+#
+frameshift<-0  # shift starting row of data matrix
+minsurv<-matrix(nrow=132,ncol=3)  #matrix for the monthly cumulative survival values saved separately for each geographic location#
+                        # 120 rows for 11 years of 12 months#
+						# 3 columns for Year, Month, Survival#
+colnames(minsurv)<-c("year", "month", "survival")#
+y_index<-(0:131)%/%12   # pointers to years in this matrix#
+minsurv_dates<-0:131#
+minsurv_date_units<-"months since 1997-01-15"#
+dates<-utcal.nc(minsurv_date_units,minsurv_dates)#
+unix_units<-"seconds since 1970-01-01"#
+unix_dates<-utinvcal.nc(unix_units,dates) #
+posix_dates<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d")+unix_dates)#
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]#
+colnames(a)[4]<-"Temp"#
+numdate<-a[,1]#
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+y<-ldate$year+1900#
+#
+tsx<-a$Temp
+a[1:10,]
+11*12
+y<-ldate$year+1900
+y
+length(y)
+nrow(a)
+a[1:10,]
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]#
+colnames(a)[4]<-"Temp"#
+numdate<-a[,1]#
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+y<-ldate$year+1900#
+tsx<-a$Temp
+length(y)
+a[1:10,]
+a[1:20,]
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+a$Temp2<-runmean(a$Temp, 5)
+a[1:10,]
+a[1:20,]
+a$year<-as.numeric(substr(a$Date,1,4))
+a[1:20,]
+table(a$year)
+a$min<-as.numeric(substr(a$Time,4,5))
+a[1:20,]
+tstep<-abs(a$min[2]-a$min[1])
+tstep
+(60/6)*24
+(60/6)*24*30
+table(a$year)
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*30#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)
+yearselect
+dim(yearselect)
+b<-subset(a, a$year==names(yearselect))
+b[1:10,]
+b[1:20,]
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$year==names(yearselect))
+a[1:10,]
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]
+a[1:10,]
+#Read in Mussel Temperature Data.    #
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$year==names(yearselect))#
+a<-a[order(a$Unix),]#
+#
+#The laboratory data used to derive the coefficients for the survival analysis are for 30 minute time intervals.  Convert the time steps from 6 minutes to 30 minutes using a running mean (5 x 6 minutes is 30 minutes of temperatures).#
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]#
+colnames(a)[4]<-"Temp"
+a[1:10,]
+#Read in Mussel Temperature Data.    #
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$year==names(yearselect))
+a[1:10,]
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$year==names(yearselect))#
+a<-a[order(a$Unix),]
+a[1:10,]
+#The laboratory data used to derive the coefficients for the survival analysis are for 30 minute time intervals.  Convert the time steps from 6 minutes to 30 minutes using a running mean (5 x 6 minutes is 30 minutes of temperatures).#
+a$Temp2<-runmean(a$Temp, 5)#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]#
+colnames(a)[4]<-"Temp"
+a[1:10,]
+numdate<-a[,1]#
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+y<-ldate$year+1900#
+tsx<-a$Temp
+y
+table(y)
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$year==names(yearselect))#
+a<-a[order(a$Unix),]#
+#
+#The laboratory data used to derive the coefficients for the survival analysis are for 30 minute time intervals.  Convert the time steps from 6 minutes to 30 minutes using a running mean (5 x 6 minutes is 30 minutes of temperatures).#
+a$Temp2<-runmean(a$Temp, 5)#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Year","Date", "Time", "Temp2")]#
+colnames(a)[5]<-"Temp"#
+#numdate<-a[,1]#
+#ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+#y<-ldate$year+1900#
+tsx<-a$Temp
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$Year<-as.numeric(substr(a$Date,1,4))#
+yearsummary<-table(a$Year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$Year==names(yearselect))#
+a<-a[order(a$Unix),]#
+#
+#The laboratory data used to derive the coefficients for the survival analysis are for 30 minute time intervals.  Convert the time steps from 6 minutes to 30 minutes using a running mean (5 x 6 minutes is 30 minutes of temperatures).#
+a$Temp2<-runmean(a$Temp, 5)#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Year","Date", "Time", "Temp2")]#
+colnames(a)[5]<-"Temp"
+a[1:10,]
+years<-unique(a$Year)#
+minsurv<-matrix(nrow=length(years)*12,ncol=3)#
+colnames(minsurv)<-c("year", "month", "survival")
+minsurv[1:10,]
+y_index<-(0:131)%/%12
+y_index
+minsurv
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$Year<-as.numeric(substr(a$Date,1,4))#
+a$YearMonth<-as.numeric(substr(a$Date,1,7))#
+yearsummary<-table(a$Year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$Year==names(yearselect))#
+a<-a[order(a$Unix),]
+print(Files_MusselTemps[z])#
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+a$min<-as.numeric(substr(a$Time,4,5))#
+tstep<-abs(a$min[2]-a$min[1])#
+tsteps.month<-(60/tstep)*24*28#
+a$Year<-as.numeric(substr(a$Date,1,4))#
+a$YearMonth<-substr(a$Date,1,7)#
+yearsummary<-table(a$Year)#
+yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+a<-subset(a, a$Year==names(yearselect))#
+a<-a[order(a$Unix),]
+a[1:10,]
+#The laboratory data used to derive the coefficients for the survival analysis are for 30 minute time intervals.  Convert the time steps from 6 minutes to 30 minutes using a running mean (5 x 6 minutes is 30 minutes of temperatures).#
+a$Temp2<-runmean(a$Temp, 5)#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Year", "YearMonth", "Date", "Time", "Temp2")]#
+colnames(a)[6]<-"Temp"#
+#numdate<-a[,1]#
+#ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+#y<-ldate$year+1900#
+tsx<-a$Temp
+a[1:10,]
+yearmonths<-unique(a$YearMonth)
+yearmonths
+minsurv$year<-as.numeric(substr(yearmonths, 1, 4))#
+minsurv$month<-as.numeric(substr(yearmonths, 6, 7))
+minsurv
+as.numeric(substr(yearmonths, 1, 4))
+minsurv<-as.data.frame(matrix(nrow=length(years)*12,ncol=3))#
+colnames(minsurv)<-c("year", "month", "survival")#
+minsurv$year<-as.numeric(substr(yearmonths, 1, 4))#
+minsurv$month<-as.numeric(substr(yearmonths, 6, 7))
+minsurv
+numdate<-a[,1]#
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+y<-ldate$year+1900
+y
+years[length(years)]
+years[1]
+year<-2002
+ndays<-length(unique(as.POSIXlt(numdate[y==year]+strptime("1970-01-01","%Y-%m-%d",tz="GMT"))$yday))
+ndays
+a1year<-subset(a, a$Year==year)#
+ ndays<-unique(a1year$Date)
+ndays
+ndays<-length(unique(a1year$Date))
+ndays
+a1year<-subset(a$Date, a$Year==year)
+a1year[1:10]
+dates1year<-subset(a$Date, a$Year==year)#
+ ndays<-length(unique(dates1year))
+ndays
+cpmatrix<-matrix(nrow=ndays,ncol=16)  #matrix for yearly survival curves, 1 for each time interval tt (there are 16 of these)#
+ mcpmatrix<-matrix(nrow=12,ncol=16) #matrix for monthly cumulative survival values, 1 for each time interval and 1 for each month#
+  TSX<-tsx[y==year]#
+  TSX<-TSX[(1+frameshift):length(TSX)]#
+  NUMDATE<-numdate[y==year]#
+  NUMDATE<-NUMDATE[(1+frameshift):length(NUMDATE)]  #
+  for (tt in 1:16){#
+  tt10<-tt*30#
+  lft<-"left"#
+  ts1<-runmin(x=TSX,k=tt,alg="C",endrule="trim") #get running minima of temperature series for time interval tt#
+  t_index<-(1:length(ts1))%/%tt #index for new series of time increments of length tt#
+  tss<-tapply(ts1,t_index,min)#
+  dsx<-runmin(x=NUMDATE,k=tt,alg="C",endrule="trim") #get running minima of date series for time interval tt#
+  ds1<-tapply(dsx,t_index,min)#
+  dss<-as.POSIXct(ds1+strptime("1970-01-01","%Y-%m-%d",tz="GMT")) #convert to posix dates#
+  mday<-as.POSIXlt(dss)$mday+1 #find first day of each month#
+  month<-as.POSIXlt(dss)$mo+1 #find the months#
+#Calculate probit of survival from temperature and duration of exposure  #
+  PT1<-(coefs[1,1]+coefs[1,2]*tss+coefs[1,3]*log10(30))-coefs[1,3]*log10(tt10)#
+  PT2<-(coefs[2,1]+coefs[2,2]*tss+coefs[2,3]*log10(30))-coefs[2,3]*log10(tt10)#
+  PT3<-(coefs[3,1]+coefs[3,2]*tss+coefs[3,3]*log10(30))-coefs[3,3]*log10(tt10)  #
+#Calculate monthly survival values#
+  for (m in 1:12) #loop through the months#
+  { #
+    mdata1<-pnorm(PT1[month==m]-5) # get daily survival data for the month assuming day 1 exposures#
+    mdata2<-pnorm(PT2[month==m]-5) # get daily survival data for the month assuming day 2 exposures#
+    mdata3<-pnorm(PT3[month==m]-5) # get daily survival data for the month assuming day 3 exposures#
+	mdata1<-c(1,mdata1) #initial value on last day of previous month = 1 (all of monthly group alive on that date)#
+	mdata2<-c(1,mdata2) #initial value on last day of previous month = 1 (all of monthly group alive on that date)#
+	mdata3<-c(1,mdata3) #initial value on last day of previous month = 1 (all of monthly group alive on that date)#
+	mdata<-mdata1  #initialize the daily mortality data with day 1 data#
+	for (d in 2:length(mdata1))  #look for 2 day runs of mortality #
+		{if (mdata1[d]<1 & mdata1[d-1]<1) {mdata[d]<-min(c(mdata2[d],mdata1[d]))}#
+		}#
+	for (d in 3:length(mdata1))  #look for 3 day runs of mortality #
+		{if (mdata1[d]<1 & mdata[d-1]<1 & mdata[d-2]<1) {mdata[d]<-min(c(mdata3[d],mdata2[d],mdata1[d]))}#
+		}#
+	mcpmatrix[m,tt]<-cumprod(mdata)[length(mdata)]  # get the survival fraction on the last day of the month and save it#
+  }#
+  cmd<-paste("d",tt10,"<-dss",sep="")#
+  eval(parse(text=cmd))#
+   }
+mcpmatrix
+TSX
+TSX<-tsx[y==year]
+TSX
+NUMDATE
+cmd<-paste("d",tt10,"<-dss",sep="")#
+  eval(parse(text=cmd))
+cmd
+eval(parse(text=cmd))
+parse(text=cmd)
+a1year<-subset(a, a$Year==year)#
+ 	ndays<-length(unique(a1year$Date))#
+ 	#Matrix for monthly cumulative survival values, nrows=months and ncols=tt#
+ 	mcpmatrix<-matrix(nrow=12,ncol=16) #
+  	for(tt in 1:16){#
+  	tt10<-tt*30#
+  	#Running minima of temperature series for time interval tt#
+  		ts1<-runmin(x=a1year$Temp,k=tt,alg="C",endrule="trim") #
+  		t_index<-(1:length(ts1))%/%tt #index for tt time increments#
+  		tss<-tapply(ts1,t_index,min)#
+	#Running minima of date series for time interval tt#
+  		dsx<-runmin(x=a1year$Unix,k=tt,alg="C",endrule="trim") #
+  		ds1<-tapply(dsx,t_index,min) #uses t_index from above#
+# dss<-as.POSIXct(ds1+strptime("1970-01-01","%Y-%m-%d",tz="GMT")) #convert to posix dates#
+	#Calculate probit of survival from temperature and duration of exposure  #
+  		PT1<-(coefs[1,1]+coefs[1,2]*tss+coefs[1,3]*log10(30))-coefs[1,3]*log10(tt10)#
+  		PT2<-(coefs[2,1]+coefs[2,2]*tss+coefs[2,3]*log10(30))-coefs[2,3]*log10(tt10)#
+  		PT3<-(coefs[3,1]+coefs[3,2]*tss+coefs[3,3]*log10(30))-coefs[3,3]*log10(tt10)  #
+	#Calculate monthly survival values#
+  	for(m in 1:12){ #
+    		mdata1<-pnorm(PT1[month==m]-5) #daily survival for day 1 exposures#
+    		mdata2<-pnorm(PT2[month==m]-5) #daily survival for day 2 exposures#
+    		mdata3<-pnorm(PT3[month==m]-5) #daily survival for day 3 exposures#
+	#Set initial value on last day of previous month = 1 (all alive)#
+		mdata1<-c(1,mdata1) #
+		mdata2<-c(1,mdata2)#
+		mdata3<-c(1,mdata3)#
+	#Initialize with day 1 exposures#
+	mdata<-mdata1  #
+	#Check for 2 consecutive days of mortality#
+		for(d in 2:length(mdata1)){#
+			if (mdata1[d]<1 & mdata1[d-1]<1) {mdata[d]<-min(c(mdata2[d],mdata1[d]))}#
+		}#
+	#Check for 3 consecutive days of mortality#
+		for(d in 3:length(mdata1)){  #
+			if (mdata1[d]<1 & mdata[d-1]<1 & mdata[d-2]<1) {mdata[d]<-min(c(mdata3[d],mdata2[d],mdata1[d]))}#
+		}#
+	#Save the survival fractions from the last day of the month#
+	mcpmatrix[m,tt]<-cumprod(mdata)[length(mdata)]  #
+  	}#
+#  cmd<-paste("d",tt10,"<-dss",sep="")#
+#  eval(parse(text=cmd))#
+   }
+mcpmatrix

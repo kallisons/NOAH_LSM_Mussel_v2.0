@@ -1,3 +1,3 @@
  
-/Users/kasmith/Documents/MusselBedStructure/Input/USCATP/USCATP_p1.00_2007.in
-/Users/kasmith/Documents/MusselBedStructure/Input/USCATP/USCATP_p1.00_2007.in
+../ExampleInputData/USCASC_p1.00_2002.in
+../ExampleInputData/USCASC_p1.00_2002.in

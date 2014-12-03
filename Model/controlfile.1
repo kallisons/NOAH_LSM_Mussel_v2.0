@@ -1,0 +1,53 @@
+Model Configuration:
+ ----------------- 
+   40.01       LATITUDE..(N > 0.00 (+); S < 0.00 (-))
+   88.37       LONGITUDE.(W > 0.00 (+); E < 0.00 (-))
+    -1         IBINOUT...(+/-) Output type: +1=Binary(GrADS), -1=ASCII(*.TXT)
+    1          JDAY......Initial julian day of simulation (1-366)
+    0          TIME......Initial time "hhmm", where: hh=hour(0-23), mm=min(0-59)
+     1         NCYCLES...Cycles the forcing data (useful for spin-up runs)
+   365         SYDAYS....DAYS IN SPIN-UP YEAR(ea. SpUp yr has Sysec/dt t_steps)
+.FALSE.        L2nd_data.Uses 2nd forcing data file (useful after spin-up runs)
+  87600       NRUN......Total # of simulation time steps
+ 360.0000     DT........Time step for integration in sec (not more than 3600)
+   20          NSOIL.....Number of soil layers (2-20)
+   10.0000     Z.........Height (above ground) of the forcing wind vector  (m)
+    0.010  0.010  0.010  0.010  0.010  0.010  0.010  0.010  0.010  0.010  0.030  0.050  0.150  0.200  0.200  0.200  0.200  0.200  0.200  0.200    K=1,NSOIL...thickness of each soil layer (m)
+ --------------------------------------------------
+Filenames of atmospheric data used for input forcing (1 and 2):
+ -------------------------------------------------- 
+../ExampleInputData/USCASC_p1.00_2002.in
+../ExampleInputData/USCASC_p1.00_2002.in
+ -------------------------------------------------------------
+Integer indexes designating soil type, veg type and slope type:
+ -------------------------------------------------------------
+    10          SOILTYP...Soil type index 1-9
+    14         VEGTYP....Vegetation type index 1-13
+    1          SLOPETYP..Slope type index 1-9
+ ____
+  Monthly ALBEDO (snow free albedo):
+   J*   F    M    A*   M    J    J*   A    S    O*   N    D   
+  0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10 0.10
+ ____
+  Monthly SHDFAC (green vegetation fraction):
+   J    F    M    A    M    J    J    A    S    O    N    D   
+  0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+ --
+    0.7500     SNOALB....Max albedo over very deep snow
+    0          SEA ICE...Sea ice flag (keep as integer 0 to designate non-sea)
+ ------------------ 
+Physical parameters:
+ ------------------ 
+  285.         TBOT......Annual constant bottom boundary soil temperature (K)
+ ---------------------- 
+Initial state variables:
+ ---------------------- 
+    285       T1........Initial skin temperature (K)
+    285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   285   STC
+   0.181   0.181   0.181   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   SMC
+   0.181   0.181   0.0304   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   SH2O
+   0.0000000      CMC.......Initial canopy water content (m)
+   0       SNOWH.....Initial actual snow depth (m)
+   0       SNEQV.....Initial water equiv snow depth (m)
+ --------------------------------------   ----- END OF READABLE CONTROLFILE -----------------------------------------------
+
