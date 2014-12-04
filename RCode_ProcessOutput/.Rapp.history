@@ -516,3 +516,251 @@ a1year<-subset(a, a$Year==year)#
 #  eval(parse(text=cmd))#
    }
 mcpmatrix
+require(caTools)#
+require(fields)#
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command in R to change the working directory to the RCode_ProcessOutput folder.#
+getwd() #shows the current working directory for the R gui. #
+#
+Files_MusselTemps<-list.files("../ExampleProcessedOutput/MusselTemperatures/")#
+#
+#Coefficients of the relationship among temperature, exposure time and survival from laboratory studies of the intertidal mussel, Mytilus californianus. Data published in:  Mislan, K.A.S., B. Helmuth, and D.S. Wethey. 2014. Geographical variation in climatic sensitivity of intertidal mussel zonation.  Global Ecology and Biogeography. 23:744-756. #
+	coefs<-as.data.frame(matrix(nrow=3,ncol=3))#
+	colnames(coefs)<-c("A", "C", "D")#
+	coefs$A<-c(-3.14,-3.01,-4.09) # Coefficient A (1 Day, 2 Days, 3 Days)#
+	coefs$C<-c(-0.93,-0.97,-1.00) # # Coefficient C (1 Day, 2 Days, 3 Days)#
+	coefs$D<-c(42.16,43.02,43.64) # Coefficient D (1 Day, 2 Days, 3 Days)
+z<-1
+site<-substr(Files_MusselTemps[z], 13, 18)#
+	cat("site:", site, "\n")#
+	point<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 21, 24)))#
+	cat("shore level: ", as.numeric(point)*100, "%", "\n", sep="")#
+	cntct<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 31, 34)))#
+	cat("contact: ", as.numeric(cntct)*100, "%", "\n", sep="")#
+	beddepth<-as.numeric(substr(Files_MusselTemps[z], 44, 44))#
+	cat("beddepth:", beddepth, "cm", "\n")#
+	cat("----------------------", "\n")
+a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+	a$min<-as.numeric(substr(a$Time,4,5))#
+	tstep<-abs(a$min[2]-a$min[1])#
+	tsteps.month<-(60/tstep)*24*28#
+	a$Year<-as.numeric(substr(a$Date,1,4))#
+	a$YearMonth<-substr(a$Date,1,7)#
+	yearsummary<-table(a$Year)#
+	yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+	a<-subset(a, Year %in% as.numeric(names(yearselect)))#
+	a<-a[order(a$Unix),]
+newa<-a
+newa[1:10,]
+z<-3
+site<-substr(Files_MusselTemps[z], 13, 18)#
+	cat("site:", site, "\n")#
+	point<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 21, 24)))#
+	cat("shore level: ", as.numeric(point)*100, "%", "\n", sep="")#
+	cntct<-sprintf("%1.2f", as.numeric(substr(Files_MusselTemps[z], 31, 34)))#
+	cat("contact: ", as.numeric(cntct)*100, "%", "\n", sep="")#
+	beddepth<-as.numeric(substr(Files_MusselTemps[z], 44, 44))#
+	cat("beddepth:", beddepth, "cm", "\n")#
+	cat("----------------------", "\n")#
+#Read in Mussel Temperature Data that was processed in Step 1.    #
+	a<-read.table(paste("../ExampleProcessedOutput/MusselTemperatures/", Files_MusselTemps[z],sep=""),header=T,sep="\t")#
+#
+#Due to the time conversion from UTC, there are some time steps that extend into a year outside the intended time frame.  This code removes the time steps if there are less than 28 days with measurements in a particular year.   #
+	a$min<-as.numeric(substr(a$Time,4,5))#
+	tstep<-abs(a$min[2]-a$min[1])#
+	tsteps.month<-(60/tstep)*24*28#
+	a$Year<-as.numeric(substr(a$Date,1,4))#
+	a$YearMonth<-substr(a$Date,1,7)#
+	yearsummary<-table(a$Year)#
+	yearselect<-subset(yearsummary, yearsummary>=tsteps.month)#
+	a<-subset(a, Year %in% as.numeric(names(yearselect)))#
+	a<-a[order(a$Unix),]
+newa<-a
+newa[1;10,]
+newa[1:10,]
+require(caTools)#
+require(fields)#
+require(RNetCDF)#
+AssemblyInfo<-read.table("~/Code/Projects/MusselBedStructure/RCode/Model_Output/AssemblyInfo_BedStructure2.txt", header=TRUE, sep="\t", stringsAsFactors=FALSE)#
+#
+#CNTCTList<-c(0.05, 0.90)
+#coefficients of relationship between temperature, exposure time and survival from Allison lab experiment data files#
+coefs<-matrix(nrow=3,ncol=3)#
+coefs[,1]<-c(42.16,43.02,43.64) # Coefficient D (1 Day, 2 Days, 3 Days)#
+coefs[,2]<-c(-0.93,-0.97,-1.00) # # Coefficient C (1 Day, 2 Days, 3 Days)#
+coefs[,3]<-c(3.14,3.01,4.09) # Coefficient A (1 Day, 2 Days, 3 Days)
+a<-read.table("/Volumes/HELIOS/MusselBedStructure/MusselTemperatures/3cm/USCATP/1.00/USCATP_1.00_cntct0.05_MusselTemps.txt", header=TRUE)#
+#a<-read.table("~/Code/PublishedProjects/NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MusselTemperatures")#
+#print(filenames[f])#
+#a<-read.table(paste(foldername, filenames[f],sep=""),header=T,sep="\t")#
+a<-subset(a, a$Unix>=852095142)
+a[1:10,]
+newa[1:10,]
+a$Temp2<-runmean(a$Temp, 5)#
+a$min<-as.numeric(substr(a$Time,4,5))#
+a<-subset(a, a$min==a$min[1] | a$min==a$min[1]+30)#
+a<-a[,c("Unix", "Date", "Time", "Temp2")]#
+colnames(a)[4]<-"Temp"#
+numdate<-a[,1]#
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)#
+y<-ldate$year+1900#
+#
+tsx<-a$Temp
+y[1:10]
+a[1:10,]
+ytest<-ldate$year
+ytest[1:10]
+ldate[1:10]
+b<-a[order(a$Unix),]
+b[1:10,]
+a[1:10,]
+numdate<-a[,1]
+numdate[1:10]
+ldate<-as.POSIXlt(strptime("1970-01-01","%Y-%m-%d",tz="GMT")+numdate)
+ldate[1:10]
+length(ldate)
+nrow(a)
+a<-read.table("/Volumes/HELIOS/MusselBedStructure/MusselTemperatures/3cm/USCATP/1.00/USCATP_1.00_cntct0.05_MusselTemps.txt", header=TRUE)
+a[1:10,]
+require(chron)#
+#
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command to change the working directory to the RCode_ProcessOutput folder.#
+getwd() #shows the current working directory for the R gui.    #
+#
+#File Path#
+Files_ModelOutput<-list.files("../ExampleModelOutput/") #
+#
+beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contact is varied at 4 cm#
+for(z in 1:length(Files_ModelOutput)){#
+site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA #
+print(site)#
+longitude<--122.065 #Longitude of Santa Cruz, CA, USA#
+print(longitude)#
+point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))#
+print(point)	#
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))#
+print(cntct)#
+year<-as.numeric(substr(Files_ModelOutput[z], 24,27))#
+print(year)#
+#
+widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,#
+CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,#
+X1=0,X2=0,X3=0,X4=0,X5=0,#
+X6=0,X7=0,X8=0,X9=0,X10=0,#
+X11=0,X12=0,X13=0,X14=0,X15=0,#
+X16=0,X17=0,X18=0,X19=0,X20=0)#
+#
+data<-data.frame(scan(paste("../ExampleModelOutput/", Files_ModelOutput[z], sep=""), widths, multi.line=TRUE))#
+#
+data$nchar<-nchar(data$hhmm)#
+data$hhmm<-ifelse(data$nchar==1, paste("000", data$hhmm, sep=""), ifelse(data$nchar==2, paste("00", data$hhmm, sep=""), ifelse(data$nchar==3, paste(0, data$hhmm, sep=""), data$hhmm)))#
+data$Date<-paste(year, data$jday, data$hhmm)#
+store<-strptime(data$Date, "%Y %j %H%M")#
+store2<-as.POSIXct(store)#
+class(store2)<-("numeric")#
+data$Unix<-store2#
+data$Unix<-data$Unix+longitude*240  #Convert from UTC to local time based on solar noon.  #
+data$Unix<-round(data$Unix, digits=0)#
+DateConvert<-data$Unix#
+class(DateConvert)<-"POSIXct"#
+DateExtract<-as.POSIXlt(DateConvert)#
+data$Date<-as.character(DateExtract, format="%Y-%m-%d")#
+data$Time<-as.character(DateExtract, format="%H:%M")#
+#
+data<-data[,c("Unix","Date","Time", paste("X", beddepth, sep=""))]#
+colnames(data)[4]<-"Temp"#
+data$Temp<-data$Temp-273.15#
+data$Temp<-round(data$Temp, digits=1)#
+#
+#File Path#
+out<-paste("../ExampleProcessedOutput/MusselTemperatures/MusselTemps_", site, "_p", point, "_cntct", cntct, "_beddepth", beddepth, ".txt", sep="")#
+#
+write.table(data, out, col.names=TRUE, row.names=FALSE, quote=FALSE, sep="\t")#
+#
+}
+require(chron)#
+#
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command to change the working directory to the RCode_ProcessOutput folder.#
+getwd() #shows the current working directory for the R gui.    #
+#
+#File Path#
+Files_ModelOutput<-list.files("../ExampleModelOutput/") #
+#
+beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contact is varied at 4 cm
+site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA #
+print(site)#
+longitude<--122.065 #Longitude of Santa Cruz, CA, USA#
+print(longitude)#
+point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))#
+print(point)	#
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))#
+print(cntct)#
+year<-as.numeric(substr(Files_ModelOutput[z], 24,27))#
+print(year)#
+#
+widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,#
+CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,#
+X1=0,X2=0,X3=0,X4=0,X5=0,#
+X6=0,X7=0,X8=0,X9=0,X10=0,#
+X11=0,X12=0,X13=0,X14=0,X15=0,#
+X16=0,X17=0,X18=0,X19=0,X20=0)#
+#
+data<-data.frame(scan(paste("../ExampleModelOutput/", Files_ModelOutput[z], sep=""), widths, multi.line=TRUE))#
+#
+data$nchar<-nchar(data$hhmm)#
+data$hhmm<-ifelse(data$nchar==1, paste("000", data$hhmm, sep=""), ifelse(data$nchar==2, paste("00", data$hhmm, sep=""), ifelse(data$nchar==3, paste(0, data$hhmm, sep=""), data$hhmm)))#
+data$Date<-paste(year, data$jday, data$hhmm)#
+store<-strptime(data$Date, "%Y %j %H%M")#
+store2<-as.POSIXct(store)#
+class(store2)<-("numeric")#
+data$Unix<-store2
+data[1:10,]
+require(chron)#
+#
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command to change the working directory to the RCode_ProcessOutput folder.#
+getwd() #shows the current working directory for the R gui.    #
+#
+#File Path#
+Files_ModelOutput<-list.files("../ExampleModelOutput/") #
+#
+beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contact is varied at 4 cm
+z<-1
+site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA #
+print(site)#
+longitude<--122.065 #Longitude of Santa Cruz, CA, USA#
+print(longitude)#
+point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))#
+print(point)	#
+cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))#
+print(cntct)#
+year<-as.numeric(substr(Files_ModelOutput[z], 24,27))#
+print(year)#
+#
+widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,#
+CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,#
+X1=0,X2=0,X3=0,X4=0,X5=0,#
+X6=0,X7=0,X8=0,X9=0,X10=0,#
+X11=0,X12=0,X13=0,X14=0,X15=0,#
+X16=0,X17=0,X18=0,X19=0,X20=0)#
+#
+data<-data.frame(scan(paste("../ExampleModelOutput/", Files_ModelOutput[z], sep=""), widths, multi.line=TRUE))#
+#
+data$nchar<-nchar(data$hhmm)#
+data$hhmm<-ifelse(data$nchar==1, paste("000", data$hhmm, sep=""), ifelse(data$nchar==2, paste("00", data$hhmm, sep=""), ifelse(data$nchar==3, paste(0, data$hhmm, sep=""), data$hhmm)))#
+data$Date<-paste(year, data$jday, data$hhmm)#
+store<-strptime(data$Date, "%Y %j %H%M")#
+store2<-as.POSIXct(store)#
+class(store2)<-("numeric")#
+data$Unix<-store2
+data[1:10,]
+data$Unix<-data$Unix+longitude*240  #Convert from UTC to local time based on solar noon.  #
+data$Unix<-round(data$Unix, digits=0)#
+DateConvert<-data$Unix#
+class(DateConvert)<-"POSIXct"#
+DateExtract<-as.POSIXlt(DateConvert)#
+data$Date<-as.character(DateExtract, format="%Y-%m-%d")#
+data$Time<-as.character(DateExtract, format="%H:%M")
+data[1:10,]
+Sys.time()
+Sys.time()

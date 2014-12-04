@@ -3,6 +3,10 @@ require(chron)
 #Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command to change the working directory to the RCode_ProcessOutput folder.
 getwd() #shows the current working directory for the R gui.    
 
+#Change your system time to be in UTC.    
+Sys.setenv(TZ="UTC")
+Sys.time() #show the current System Time. 
+
 #File Path
 Files_ModelOutput<-list.files("../ExampleModelOutput/") 
 
@@ -10,15 +14,15 @@ beddepth<-"3" #depth layer in mussel bed in cm, total mussel bed is 8 cm, contac
 	
 for(z in 1:length(Files_ModelOutput)){
 site<-substr(Files_ModelOutput[z], 1, 6) #Santa Cruz, CA, USA 
-print(site)
+cat("site:", site, "\n")
 longitude<--122.065 #Longitude of Santa Cruz, CA, USA
-print(longitude)
+cat("longitude:", longitude, "\n")
 point<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 9, 12)))
-print(point)	
+cat("shore level: ", as.numeric(point)*100, "%", "\n", sep="")	
 cntct<-sprintf("%1.2f", as.numeric(substr(Files_ModelOutput[z], 19, 22)))
-print(cntct)
+cat("contact: ", as.numeric(cntct)*100, "%", "\n", sep="")
 year<-as.numeric(substr(Files_ModelOutput[z], 24,27))
-print(year)
+cat("year: ", year, "\n", sep="")
 
 widths=list(jday=0,hhmm=0,f=0,RNETcalc=0,
 CH=0,CM=0,H=0,S=0,AET=0,RES=0,Fup=0,FLX1=0, FLX2=0,FLX3=0,Tskin=0,Q1=0,ETPS=0,

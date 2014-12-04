@@ -35,6 +35,8 @@ cp generic_initial_conditions.txt init_conds.txt
     fi
   cat controlfile_top.txt fnames.txt controlfile_bot_1.txt init_conds.txt controlfile_end.txt > controlfile.1
   ./LSMM2 controlfile.1 |awk -f get_initial_conditions.awk > init_conds.txt
+
+#MAKE COMMENTS
   cp THERMO.TXT ${filepathout}${site}_p${point}_cntct${CNTCT}_${year}.out 
   
   rm 2.7.1_ET.tx
