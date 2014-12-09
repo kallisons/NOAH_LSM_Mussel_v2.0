@@ -1,16 +1,18 @@
-#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command in R to change the working directory to the RCode_ProcessOutput folder.
+#Check that the working directory is the RCode_ProcessOutput folder in the NOAH_LSM_Mussel_v2.0 folder. If needed, use the setwd() command or the Misc menu in R to change the working directory to the RCode_ProcessOutput folder.
 getwd() #shows the current working directory for the R gui. 
 
-#Change your system time to be in UTC.    
+#Change your system time to be in UTC for time conversions.    
 Sys.setenv(TZ="UTC")
 
+#File path to folder with the files
 folder<-paste("../ExampleProcessedOutput/MusselTemperatures/")
 files<-list.files(folder)
 
+#Create table for data entry
 temp.sites<-as.data.frame(matrix(NA, length(files), 13))
 colnames(temp.sites)<-c("Site", "Point", "cntct", "beddepth", "num.days", "num.months", "num.years", "mean.daily.max", "sd.daily.max", "mean.month.max", "sd.month.max", "mean.ann.max", "sd.ann.max")
 
-
+#Read data in and calculate mean daily, monthly, and annual maximum mussel temperatures
 for(f in 1:length(files)){
 	print(files[f])
 	data<-read.table(paste(folder, files[f], sep=""), header=TRUE)
@@ -26,13 +28,12 @@ for(f in 1:length(files)){
 	data<-subset(data, Year %in% as.numeric(names(yearselect)))
 	data<-data[order(data$Unix),]
 	
-#Calculate Daily Monthly and Annual Statistics		
+#Calculate daily, monthly, and annual maximum mussel temperatures in the table		
 	dailymax<-aggregate(data$Temp, list(data$Date), max)
 	colnames(dailymax)<-c("Date", "dailymax")
 	dailymax<-dailymax[-1,]
 	
 	dailymax$yearmonth<-substr(dailymax$Date, 1,7)
-	
 	monthlymax<-aggregate(dailymax$dailymax, list(dailymax$yearmonth), max)
 	colnames(monthlymax)<-c("yearmonth", "monthlymax")
 	
@@ -40,7 +41,7 @@ for(f in 1:length(files)){
 	annmax<-aggregate(monthlymax$monthlymax, list(monthlymax$year), max)
 	colnames(annmax)<-c("year", "annmax")
 	
-	
+#Enter information about the site and period of time in the table	
 	temp.sites$Site[f]<-substr(files[f], 13, 18)
 	temp.sites$Point[f]<-substr(files[f], 21, 24)
 	temp.sites$cntct[f]<-substr(files[f], 31, 34)
@@ -49,6 +50,7 @@ for(f in 1:length(files)){
 	temp.sites$num.months[f]<-length(unique(data$YearMonth))
 	temp.sites$num.years[f]<-length(yearselect)
 
+#Enter mean daily, monthly, and annual maximum mussel temperatures in the table
 	if(length(unique(data$Date))>2){
 	temp.sites$mean.daily.max[f]<-mean(dailymax$dailymax)
 	temp.sites$sd.daily.max[f]<-sd(dailymax$dailymax)
@@ -72,7 +74,7 @@ for(f in 1:length(files)){
 	cat("-------------------", "\n")		
 }
 	
-
+#Round digits in the table to 2 decimal places
 temp.sites$mean.daily.max<-round(temp.sites$mean.daily.max, digits=2)
 temp.sites$sd.daily.max<-round(temp.sites$sd.daily.max, digits=2)
 
@@ -82,6 +84,7 @@ temp.sites$sd.month.max<-round(temp.sites$sd.month.max, digits=2)
 temp.sites$mean.ann.max<-round(temp.sites$mean.ann.max, digits=2)
 temp.sites$sd.ann.max<-round(temp.sites$sd.ann.max, digits=2)
 
+#Calculate standard error from standard deviation
 temp.sites$se.daily.max<-temp.sites$sd.daily.max/(sqrt(temp.sites$num.days))
 temp.sites$se.daily.max<-round(temp.sites$se.daily.max, digits=2)
 
@@ -91,7 +94,7 @@ temp.sites$se.month.max<-round(temp.sites$se.month.max, digits=2)
 temp.sites$se.ann.max<-temp.sites$sd.ann.max/(sqrt(temp.sites$num.years))
 temp.sites$se.ann.max<-round(temp.sites$se.ann.max, digits=2)
 
+#Write output to text file
 outfile<-paste("../ExampleProcessedOutput/MaxMusselTemperatures/MaxMusselTemps.txt", sep="")
-
 write.table(temp.sites, outfile, quote=FALSE, sep="\t", row.names=FALSE, col.names=TRUE)
 

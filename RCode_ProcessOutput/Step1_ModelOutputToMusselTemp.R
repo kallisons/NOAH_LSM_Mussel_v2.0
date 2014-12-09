@@ -5,7 +5,6 @@ getwd() #shows the current working directory for the R gui.
 
 #Change your system time to be in UTC.    
 Sys.setenv(TZ="UTC")
-Sys.time() #show the current System Time. 
 
 #File Path
 Files_ModelOutput<-list.files("../ExampleModelOutput/") 
