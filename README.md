@@ -83,7 +83,7 @@ The control files that provide the model with important information about the in
 
 
 **Modifying the control files:**  
-The control files for the model must be modified if new input files are created that have a different time step, length of time, or start on a different day.  Make changes to JDAY, TIME, SYDAYS, NRUN, and DT in the controlfile_top_leap_6min.txt and controlfile_top_noleap_6min.txt files before running the model with input files with different characteristics.  Add additional leap years to the RunModel_LSMM2.sh if running the model if needed.
+The control files for the model must be modified if new input files are created that have a different time step, length of time, or start on a different day.  Make changes to JDAY, TIME, SYDAYS, NRUN, and DT in the controlfile_top_leap_6min.txt and controlfile_top_noleap_6min.txt files before running the model with input files with different characteristics.  Add additional leap years to the RunModel_LSMM2.sh if needed.
 
 
 
