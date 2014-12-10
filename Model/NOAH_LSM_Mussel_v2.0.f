@@ -49,6 +49,11 @@ C                                    /TIDE/TIDEFLAG,SST
 C  to pass mussel parameters
 C VERSION NoahTest_v1.91 -Namelist version of Mussel Model 15-Nov-2006
 C                                        1.92 - begin adding other vegetation types 20-Mar-2008
+C
+C NOAH_LSM_Mussel_v2.0 -- 15 DEC 2014
+C   changes:
+C       added variable contact percent at the midpoint of the mussel layers
+C
 C ----------------------------------------------------------------------
 
       CHARACTER*100 CNTRFL, FILENAME, FILENAME2
