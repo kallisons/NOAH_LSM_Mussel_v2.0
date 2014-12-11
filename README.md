@@ -81,13 +81,13 @@ Command to run comparison tests:
 ------------------------------------
 Processing the model output with R
 ------------------------------------
-The model output needs to be processed.  The following commands (1) extract mussel temperatures from a beddepth of 3 cm and convert the time to local solar noon using longitude of the site, (2) calculate survival, and (3) calculate maximum mussel temperature statistics.  The code for calculating mussel survival and maximum mussel temperature statistics requires (1).
+The model output needs to be processed.  The following commands (1) extract predicted mussel temperatures from a beddepth of 3 cm and convert the time to local solar noon using longitude of the site, (2) calculate predicted survival, and (3) calculate predicted maximum mussel temperatures.  The code for calculating mussel survival and maximum mussel temperatures requires the output files produced by (1).
 
 Change directory:  
 
     cd NOAH_LSM_Mussel_v2.0/RCode_ProcessOutput
 
-**(1) Extract mussel temperatures**
+**(1) Extract predicted mussel temperatures**
 
 Command to run R code:
 
@@ -95,7 +95,7 @@ Command to run R code:
 
 Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MusselTemperatures folder.
 
-**(2) Calculate mussel survival**
+**(2) Calculate predicted mussel survival**
 
 Command to run R code:
 
@@ -103,7 +103,7 @@ Command to run R code:
 
 Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MusselSurvival folder.
 
-**(3) Calculate maximum mussel temperature statistics**
+**(3) Calculate predicted maximum mussel temperatures**
 
 Command to run R code:
 
@@ -143,7 +143,7 @@ The input files have <=1 year of data.  The model input file has no header and c
 
 For time zone, we generally run the model with the time in UTC, and then Step1_ModelOutputToMusselTemp.R converts the time to solar noon using the longitude of the site.
 
-The control files that provide the model with important information about the input data are currently set-up for a 6 minute time step, an entire year of data, and start with a julian day of 1 and time of 0.  The RunModel_LSMM2.sh file changes the control file for the leap years 2000, 2004, and 2008 to correctly input the data.
+The control files that provide the model with important information about the input data are currently set for a 6 minute time step, an entire year of data, and start with a julian day of 1 and time of 0.  The RunModel_LSMM2.sh file changes the control file for the leap years 2000, 2004, and 2008 to correctly input the data.
 
 **Modifying the control files:**  
 The control files for the model must be modified if new input files are created that have a different time step, length of time, or start on a different day.  Make changes to JDAY, TIME, SYDAYS, NRUN, and DT in the controlfile_top_leap_6min.txt and controlfile_top_noleap_6min.txt files before running the model with input files with different characteristics.  Add additional leap years to the RunModel_LSMM2.sh if needed.
