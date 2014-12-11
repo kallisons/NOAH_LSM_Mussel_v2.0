@@ -52,7 +52,7 @@ Change Directory:
 
 Command to Compile Model:
 
-    gfortran NOAH_LSM_Mussel_v2.0.f -o LSSM2
+    gfortran NOAH_LSM_Mussel_v2.0.f -o LSMM2
 
 
 ------------------
