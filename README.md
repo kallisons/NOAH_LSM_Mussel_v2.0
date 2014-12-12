@@ -22,6 +22,8 @@ Ek MB, Mitchell KE, Lin Y, Rogers E, Grunmann P, Koren V, and JD Tarpley. 2003. 
 ----------------------
 Software dependencies
 ----------------------
+All the required software is open source:
+
 R: [http://www.r-project.org/](http://www.r-project.org/)  
 R packages: chron, caTools, fields
 
@@ -55,7 +57,7 @@ Change directory:
 
 Command to compile model:
 
-    gfortran NOAH_LSM_Mussel_v2.0.f -o LSMM2
+    gfortran NOAH_LSM_Mussel_v2.0.f -o LSMM2 -ffpe-summary=invalid,zero
 
 
 ------------------
