@@ -24,10 +24,10 @@ Software dependencies
 ----------------------
 All the required software is open source:
 
-R: [http://www.r-project.org/](http://www.r-project.org/)  
-R packages: chron, caTools, fields
+R version 3.1.2: [http://www.r-project.org/](http://www.r-project.org/)  
+R packages: chron version 2.3-45, caTools version 1.17.1, fields version 7.1
 
-gfortran:   [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran)  
+gfortran version 5.0.0:   [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran)  
 
 ---------
 Folders
@@ -57,7 +57,7 @@ Change directory:
 
 Command to compile model:
 
-    gfortran NOAH_LSM_Mussel_v2.0.f -o LSMM2 -ffpe-summary=invalid,zero
+    gfortran NOAH_LSM_Mussel_v2.0.f -o LSMM2 -ffpe-summary=invalid,zero,overflow
 
 
 ------------------
