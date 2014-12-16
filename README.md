@@ -24,10 +24,10 @@ Software dependencies
 ----------------------
 All the required software is open source:
 
+gfortran version 5.0.0:   [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran)
+
 R version 3.1.2: [http://www.r-project.org/](http://www.r-project.org/)  
 R packages: chron version 2.3-45, caTools version 1.17.1, fields version 7.1
-
-gfortran version 5.0.0:   [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran)  
 
 ---------
 Folders
@@ -35,7 +35,7 @@ Folders
 
 **ExampleInputData** - The shell script that runs the model will read input files from this folder.  The folder contains a file with example input data that can be used for testing the model after compilation.  The format for the file names is a six digit code for the site (USCASC), the shore level (1.00), and the year (2002).  It is important to keep the exact same format in the file names in order to run the  model.
 
-**ExampleModelOutput** - The shell script that runs the model will put output files from the model in this folder.  The RCode will access the model output from this folder.  
+**ExampleModelOutput** - The shell script that runs the model will put output files from the model in this folder.  The R code will access the model output from this folder.  
 
 **ExampleProcessedOutput** - The folder contains three subfolders for output from the model that has been processed by R Code from the RCode_ProcessOutput folder.  
 
