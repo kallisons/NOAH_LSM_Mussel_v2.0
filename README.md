@@ -160,4 +160,4 @@ KAS was supported by the Gordon and Betty Moore Foundation, the Alfred P. Sloan 
 
 Scientific Research and Code Development:  
 KAS was supported by the NOAA Cooperative Institute for Climate Science (NA08OAR4320752) and the Carbon
-Mitigation Initiative which is sponsored by BP.  This study was also supported by grants from NSF (OCE1039513 and OCE1129401), NOAA (NA04NOS4780264), and NASA (NNX07AF20G and NNX11AP77G) to DSW.
+Mitigation Initiative which is sponsored by BP at Princeton University.  This study was also supported by grants from NSF (OCE1039513 and OCE1129401), NOAA (NA04NOS4780264), and NASA (NNX07AF20G and NNX11AP77G) to DSW at the University of South Carolina.
