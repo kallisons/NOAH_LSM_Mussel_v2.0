@@ -91,7 +91,7 @@ Change directory:
 
 **(1) Extract predicted mussel temperatures**
 
-Command to run R code:
+Command to run R code from a shell:
 
     RScript Step1_ModelOutputToMusselTemp.R
 
@@ -99,7 +99,7 @@ Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/Muss
 
 **(2) Calculate predicted mussel survival**
 
-Command to run R code:
+Command to run R code from a shell:
 
     RScript MusselTempToMusselSurvival.R
 
@@ -107,7 +107,7 @@ Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/Muss
 
 **(3) Calculate predicted maximum mussel temperatures**
 
-Command to run R code:
+Command to run R code from a shell:
 
     RScript CalculateMaxMusselTemp.R
 
