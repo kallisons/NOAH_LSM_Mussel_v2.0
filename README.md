@@ -165,7 +165,7 @@ Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MaxM
 -----------------------
 Verify example R output
 -----------------------
-Compare example R output created using the commands above to a set of test files to make sure the results are the same.
+Compare example R output created using the commands above to a set of test files to make sure the results are the same.  The comparison is done using a shell script in the NOAH_LSM_Mussel_v2.0/RCode_ProcessOutput folder.
 
 Command to run comparison tests:
 
@@ -202,7 +202,7 @@ The control files for the model must be modified if new input files are created 
 -----------------------------
 Acknowledgements
 -----------------------------
-Daniel Halperin, eScience Institute, University of Washington, vetted this code release.
+Daniel Halperin, eScience Institute, University of Washington, vetted this code release.  We also appreciate comments on the code  documentation from B. Marwick and R. LeVeque.
 
 Code Release:  
 KAS was supported by the Gordon and Betty Moore Foundation, the Alfred P. Sloan Foundation, and the Washington Research Foundation through the eScience Institute at the University of Washington.  
