@@ -20,14 +20,32 @@ Chen F, and J Dudhia. 2001. Coupling an advanced land surface-hydrology model wi
 Ek MB, Mitchell KE, Lin Y, Rogers E, Grunmann P, Koren V, and JD Tarpley. 2003. Implementation of Noah land surface model advances in the National Centers for Environmental Prediction operational mesoscale Eta model. Journal of Geophysical Research: Atmospheres (1984–2012), 108(D22). doi:10.1029/2002JD003296
 
 ----------------------
+NOAH LSM User Guide
+----------------------
+
+For more information on the National Weather Service NOAH Land Surface Model, read the user guide:
+
+[Noah_LSM_USERGUIDE_2.7.1.pdf](http://www.ral.ucar.edu/research/land/technology/lsm/noah/Noah_LSM_USERGUIDE_2.7.1.pdf)
+
+----------------------
 Software dependencies
 ----------------------
-All the required software is open source:
+**All the required software is open source.**
 
 gfortran version 5.0.0:   [https://gcc.gnu.org/wiki/GFortran](https://gcc.gnu.org/wiki/GFortran)
 
 R version 3.1.2: [http://www.r-project.org/](http://www.r-project.org/)  
 R packages: chron version 2.3-45, caTools version 1.17.1, fields version 7.1
+
+
+**Operating system information:**
+
+Mac OS X and Unix-like operating systems should be able to install gfortran and R without any additional dependencies.
+
+Windows operating systems require a unix environment to be installed in order for gfortran to be installed:
+Cygwin is available at [www.cygwin.com](www.cygwin.com)  
+MinGW is available at [www.mingw.org](www.mingw.org)
+
 
 ---------
 Folders
@@ -46,10 +64,16 @@ Folders
 **TestFiles** - Contains test files to verify the example output was generated correctly by the model and R scripts.  
 
 -------------------
+Opening a shell
+-------------------
+
+The instructions below require opening a unix-like shell and running commands.  In Mac OS X, a unix-like shell is accessed through the Terminal application.  In Windows, a unix-like shell is accessed through Cygwin or MinGW applications.
+
+-------------------
 Compiling the model
 -------------------
 
-Open a shell window and change the directory to the Model folder inside the NOAH_LSM_Mussel_v2.0 folder.  
+Open a shell and change the directory to the Model folder inside the NOAH_LSM_Mussel_v2.0 folder and then compile the model.
 
 Change directory:  
 
@@ -63,7 +87,7 @@ Command to compile model:
 ------------------
 Running the model
 ------------------
-The model is run using a shell script.  Site codes (site), shore level (point), year, and contact proportion at midpoint of the mussel bed (CNTCT) can be modified in this file.  Site codes, shore levels, and year are input file characteristics.  Contact proportion at the midpoint of the mussel bed alters a parameter in the model.
+The model is run using a shell script in the NOAH_LSM_Mussel_v2.0/Model folder. Site codes (site), shore level (point), year, and contact proportion at midpoint of the mussel bed (CNTCT) can be modified in this file.  Site codes, shore levels, and year are input file characteristics.  Contact proportion at the midpoint of the mussel bed alters a parameter in the model.
 
 Command to run model:
 
@@ -74,7 +98,7 @@ Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleModelOutput folder.
 ----------------------------
 Verify example model output
 ----------------------------
-Compare example model output created using the commands above to a set of test files to make sure the results are the same.  
+Compare example model output created using the commands above to a set of test files to make sure the results are the same.  The comparison is done using a shell script in the NOAH_LSM_Mussel_v2.0/Model folder.
 
 Command to run comparison tests:
 
@@ -83,7 +107,7 @@ Command to run comparison tests:
 ------------------------------------
 Processing the model output with R
 ------------------------------------
-The model output needs to be processed.  The following commands (1) extract predicted mussel temperatures from a beddepth of 3 cm and convert the time to local solar noon using longitude of the site, (2) calculate predicted survival, and (3) calculate predicted maximum mussel temperatures.  The code for calculating mussel survival and maximum mussel temperatures requires the output files produced by (1).
+The model output needs to be processed.  In the instructions below, the R code is processed from a shell with the Rscript utility which is included in the R distribution.  The commands (1) extract predicted mussel temperatures from a beddepth of 3 cm and convert the time to local solar noon using longitude of the site, (2) calculate predicted survival, and (3) calculate predicted maximum mussel temperatures.  The code for calculating mussel survival and maximum mussel temperatures requires the output files produced by (1).  
 
 Change directory:  
 
@@ -95,6 +119,14 @@ Command to run R code from a shell:
 
     RScript Step1_ModelOutputToMusselTemp.R
 
+Command to run R code from a Windows CMD window:
+
+    c:\progra~1\R\R-3.1.2\bin\Rscript.exe Step1_ModelOutputToMusselTemp.R
+
+Command to run R code from a Windows cygwin shell:
+
+    /cygdrive/c/progra~1/R/R-3.1.2/bin/Rscript.exe Step1_ModelOutputToMusselTemp.R
+
 Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MusselTemperatures folder.
 
 **(2) Calculate predicted mussel survival**
@@ -103,6 +135,14 @@ Command to run R code from a shell:
 
     RScript MusselTempToMusselSurvival.R
 
+Command to run R code from a Windows CMD window:
+
+    c:\progra~1\R\R-3.1.2\bin\Rscript.exe MusselTempToMusselSurvival.R
+
+Command to run R code from a Windows cygwin shell:
+
+    /cygdrive/c/progra~1/R/R-3.1.2/bin/Rscript.exe MusselTempToMusselSurvival.R
+
 Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MusselSurvival folder.
 
 **(3) Calculate predicted maximum mussel temperatures**
@@ -110,6 +150,15 @@ Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/Muss
 Command to run R code from a shell:
 
     RScript CalculateMaxMusselTemp.R
+
+Command to run R code from a Windows CMD window:
+
+    c:\progra~1\R\R-3.1.2\bin\Rscript.exe CalculateMaxMusselTemp.R
+
+Command to run R code from a Windows cygwin shell:
+
+    /cygdrive/c/progra~1/R/R-3.1.2/bin/Rscript.exe CalculateMaxMusselTemp.R
+
 
 Output files are written to the NOAH_LSM_Mussel_v2.0/ExampleProcessedOutput/MaxMusselTemperatures folder.
 
@@ -139,11 +188,11 @@ The input files have <=1 year of data.  The model input file has no header and c
 * surface pressure (mb)
 * downwelling shortwave radiation (W m^-2)
 * downwelling longwave radiation (W m^-2)
-* precipitation rate (total inches)
+* precipitation rate (total inches per half hour)
 * sea surface temperature (K)
 * tide flag (high tide = 0, low tide = 1)
 
-For time zone, we generally run the model with the time in UTC, and then Step1_ModelOutputToMusselTemp.R converts the time to solar noon using the longitude of the site.
+For time zone, we run the model with the time in UTC, and then Step1_ModelOutputToMusselTemp.R converts the time to solar noon using the longitude of the site.  In order for the model to remain stable when within mussel bed contact is low, the time step needs to be 6 minutes or less.  If the input data is only available for longer time steps, then the data must be interpolated to 6 minutes.
 
 The control files that provide the model with important information about the input data are currently set for a 6 minute time step, an entire year of data, and start with a julian day of 1 and time of 0.  The RunModel_LSMM2.sh file changes the control file for the leap years 2000, 2004, and 2008 to correctly input the data.
 
