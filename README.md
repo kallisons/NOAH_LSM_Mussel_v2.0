@@ -42,7 +42,8 @@ R packages: chron version 2.3-45, caTools version 1.17.1, fields version 7.1
 
 Mac OS X and Unix-like operating systems should be able to install gfortran and R without any additional dependencies.
 
-Windows operating systems require a unix environment to be installed in order for gfortran to be installed.  Options include:         
+Windows operating systems require a unix environment to be installed in order for gfortran to be installed.  Options include:
+         
 Cygwin: [www.cygwin.com](www.cygwin.com)  
 MinGW: [www.mingw.org](www.mingw.org)
 
