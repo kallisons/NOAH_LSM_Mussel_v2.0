@@ -11,13 +11,13 @@ Mislan, KAS and DS Wethey. 2015. A biophysical basis for patchy mortality during
 
 **NOAH_LSM_Mussel_v1.0**
 
-Wethey DS, LD Brin, B Helmuth, and KAS Mislan. 2011. Predicting intertidal organism temperatures with modified land surface models.  Ecological Modelling 222:3568-3576. doi:10.1016/j.ecolmodel.2011.08.019
+Wethey DS, LD Brin, B Helmuth, and KAS Mislan. 2011. Predicting intertidal organism temperatures with modified land surface models.  Ecological Modelling 222:3568-3576. [http://dx.doi.org/10.1016/j.ecolmodel.2011.08.019](http://dx.doi.org/10.1016/j.ecolmodel.2011.08.019)
 
 **NOAH_LSM**
 
 Chen F, and J Dudhia. 2001. Coupling an advanced land surface-hydrology model with the Penn State-NCAR MM5 modeling system. Part I: Model implementation and sensitivity. Monthly Weather Review, 129:569-585.
 
-Ek MB, Mitchell KE, Lin Y, Rogers E, Grunmann P, Koren V, and JD Tarpley. 2003. Implementation of Noah land surface model advances in the National Centers for Environmental Prediction operational mesoscale Eta model. Journal of Geophysical Research: Atmospheres (1984–2012), 108(D22). doi:10.1029/2002JD003296
+Ek MB, Mitchell KE, Lin Y, Rogers E, Grunmann P, Koren V, and JD Tarpley. 2003. Implementation of Noah land surface model advances in the National Centers for Environmental Prediction operational mesoscale Eta model. Journal of Geophysical Research: Atmospheres (1984–2012), 108(D22). [http://dx.doi.org/10.1029/2002JD003296](http://dx.doi.org/10.1029/2002JD003296)
 
 ----------------------
 NOAH LSM User Guide
@@ -43,7 +43,7 @@ R packages: chron version 2.3-45, caTools version 1.17.1, fields version 7.1
 Mac OS X and Unix-like operating systems should be able to install gfortran and R without any additional dependencies.
 
 Windows operating systems require a unix environment to be installed in order for gfortran to be installed.  Options include:
-         
+
 Cygwin: [www.cygwin.com](www.cygwin.com)  
 MinGW: [www.mingw.org](www.mingw.org)
 
@@ -177,7 +177,7 @@ Model input data
 -----------------
 The model predicts mussel temperature from meteorological and oceanic data which is contained in an input file.  We have provided an example input data file in the ExampleInputData folder that can be processed with the commands listed above to determine mussel temperatures and survival. We imagine that there may be interest in running the model with different input data.  
 
-To make new input files:
+**To make new input files:**
 
 The input files have <=1 year of data.  The model input file has no header and contains the following space delimited columns:
 
@@ -197,8 +197,13 @@ For time zone, we run the model with the time in UTC, and then Step1_ModelOutput
 
 The control files that provide the model with important information about the input data are currently set for a 6 minute time step, an entire year of data, and start with a julian day of 1 and time of 0.  The RunModel_LSMM2.sh file changes the control file for the leap years 2000, 2004, and 2008 to correctly input the data.
 
-**Modifying the control files:**  
+**Modifying the control files:**
+
 The control files for the model must be modified if new input files are created that have a different time step, length of time, or start on a different day.  Make changes to JDAY, TIME, SYDAYS, NRUN, and DT in the controlfile_top_leap_6min.txt and controlfile_top_noleap_6min.txt files before running the model with input files with different characteristics.  Add additional leap years to the RunModel_LSMM2.sh if needed.
+
+**For an overview and analysis of input data:**
+
+Mislan KAS and DS Wethey. 2011. Gridded meteorological data as a resource for mechanistic macroecology in coastal environments. Ecological Applications 21:2678–2690.  [http://dx.doi.org/10.1890/10-2049.1](http://dx.doi.org/10.1890/10-2049.1)
 
 -----------------------------
 Acknowledgements
