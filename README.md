@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/8411/kallisons/NOAH_LSM_Mussel_v2.0.svg)](http://dx.doi.org/10.5281/zenodo.13380)
+
 NOAH_LSM_Mussel_v2.0
 ====================
 
