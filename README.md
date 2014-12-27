@@ -193,7 +193,7 @@ The input files have <=1 year of data.  The model input file has no header and c
 * sea surface temperature (K)
 * tide flag (high tide = 0, low tide = 1)
 
-For time zone, we run the model with the time in UTC, and then Step1_ModelOutputToMusselTemp.R converts the time to solar noon using the longitude of the site.  In order for the model to remain stable when contact within mussel bed is low, the time step needs to be 6 minutes or less.  If the input data is only available for longer time steps, then the data must be interpolated to 6 minutes.
+For time zone, we run the model with the time in UTC, and then Step1_ModelOutputToMusselTemp.R converts the time to solar noon using the longitude of the site.  In order for the model to remain stable when contact within mussel bed is low, the time step needs to be 6 minutes or less.  If the input data is only available for longer time steps, then the data can be interpolated to 6 minutes.
 
 The control files that provide the model with important information about the input data are currently set for a 6 minute time step, an entire year of data, and start with a julian day of 1 and time of 0.  The RunModel_LSMM2.sh file changes the control file for the leap years 2000, 2004, and 2008 to correctly input the data.
 
