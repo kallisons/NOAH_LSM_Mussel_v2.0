@@ -3,13 +3,13 @@
 NOAH_LSM_Mussel_v2.0
 ====================
 
-NOAH LSM Mussel v2.0 is a mathematical model that predicts mussel bed temperatures from atmospheric and oceanic data by mimicking the thermal properties of a mussel bed exposed to tidal inundation and wave run-up. The model is derived from the National Weather Service NOAH Land Surface Model.  In v2.0, it is possible to change the within mussel bed contact which determines conductive heat transfer.  Mussel survival is predicted using mussel bed temperatures from the model.   
+NOAH LSM Mussel v2.0 is a mathematical model that predicts mussel bed temperatures from atmospheric and oceanic data by mimicking the thermal properties of a mussel bed exposed to tidal inundation and wave run-up. The model is derived from the National Weather Service NOAH Land Surface Model.  In v2.0, it is possible to change the within mussel bed contact which determines conductive heat transfer.  Mussel survival is predicted using mussel bed temperatures from the model.
 
 Please cite the following papers if you use this code:
 
 **NOAH_LSM_Mussel_v2.0**
 
-Mislan, KAS and DS Wethey. 2015. A biophysical basis for patchy mortality during heat waves. Ecology.
+Mislan, KAS and DS Wethey. 2015. A biophysical basis for patchy mortality during heat waves. Ecology. 96:902-907.
 
 **NOAH_LSM_Mussel_v1.0**
 
