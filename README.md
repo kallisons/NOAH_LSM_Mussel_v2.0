@@ -46,8 +46,8 @@ Mac OS X and Unix-like operating systems should be able to install gfortran and 
 
 Windows operating systems require a unix environment to be installed in order for gfortran to be installed.  Options include:
 
-Cygwin: [www.cygwin.com](www.cygwin.com)  
-MinGW: [www.mingw.org](www.mingw.org)
+Cygwin: [www.cygwin.com](http://www.cygwin.com)  
+MinGW: [www.mingw.org](http://www.mingw.org)
 
 
 ---------
